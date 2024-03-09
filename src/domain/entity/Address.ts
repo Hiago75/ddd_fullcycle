@@ -29,21 +29,25 @@ export default class Address {
     return this._city
   }
 
+  getFormatedAddress(): string {
+    return `${this.street} N° ${this.number}, ${this.city}. ${this.zip}`
+  }
+
   validate() {
     if (this._street.length === 0) {
       throw new Error("Street is required")
     }
 
-    if (this._number === 0) {
-      throw new Error("Street is required")
+    if (this._number === 0 || this._number === null) {
+      throw new Error("Number is required")
     }
 
     if (this._zip.length === 0) {
-      throw new Error("Street is required")
+      throw new Error("Zip is required")
     }
 
     if (this._city.length === 0) {
-      throw new Error("Street is required")
+      throw new Error("City is required")
     }
   }
 }
