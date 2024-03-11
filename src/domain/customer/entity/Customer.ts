@@ -1,23 +1,4 @@
-// Essa entidade é focada em NEGÓCIO, ou seja, não está relacionada ao ORM que está ligada a PERSISTENCIA. Durante o desenvolvimento do software, vai ser necessário ter 2 entidades, uma delas responsável pela persistencia e a outra seria essa responsável pela regra. Muitas vezes o nome entidade sequer cabe a persistência que pode usar um nome diferente para facilitar o entendimento do contexto de cada arquivo. Um exemplo de como organizar isso seria:
-
-import EventDispatcher from "../event/@shared/event-dispatcher";
-import CustomerCreatedEvent from "../event/customer/customer-created.event";
-import Address from "./Address";
-
-/* 
-  Complexidade de negócio:
-  Domain
-  - Entity
-  - - Customer (regra de negócio)
-  
-
-  
-  
-  Complexidade acidental: 
-  infra
-  - Entity/Model
-  - - Customer (get, set)
-*/
+import Address from "../value-object/Address";
 
 export default class Customer {
   private _id: string;
