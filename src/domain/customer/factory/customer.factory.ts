@@ -12,6 +12,7 @@ export default class CustomerFactory {
     const customer = new Customer(uuid(), name)
 
     customer.changeAddress(address)
+    customer.addRewardPoints(0)
 
     return customer
   }

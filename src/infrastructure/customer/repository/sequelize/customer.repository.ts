@@ -2,9 +2,10 @@ import CustomerRepositoryInterface from "../../../../domain/customer/repository/
 import Customer from "../../../../domain/customer/entity/Customer";
 import Address from "../../../../domain/customer/value-object/Address";
 import CustomerModel from "./customer.model";
+import CustomerInterface from "../../../../domain/customer/entity/customer.interface";
 
 export default class CustomerRepository implements CustomerRepositoryInterface {
-  async create(entity: Customer): Promise<void> {
+  async create(entity: CustomerInterface): Promise<void> {
     await CustomerModel.create({
       id: entity.id,
       name: entity.name,
@@ -17,7 +18,7 @@ export default class CustomerRepository implements CustomerRepositoryInterface {
     });
   }
 
-  async update(entity: Customer): Promise<void> {
+  async update(entity: CustomerInterface): Promise<void> {
     await CustomerModel.update(
       {
         name: entity.name,
@@ -36,7 +37,7 @@ export default class CustomerRepository implements CustomerRepositoryInterface {
     );
   }
 
-  async find(id: string): Promise<Customer> {
+  async find(id: string): Promise<CustomerInterface> {
     let customerModel;
     try {
       customerModel = await CustomerModel.findOne({
@@ -57,6 +58,7 @@ export default class CustomerRepository implements CustomerRepositoryInterface {
       customerModel.city
     );
     customer.changeAddress(address);
+
     return customer;
   }
 
