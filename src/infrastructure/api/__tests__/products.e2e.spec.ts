@@ -14,12 +14,12 @@ describe("E2E test for customer", () => {
     const response = await request(app)
       .post("/product")
       .send({
-        name: "John",
+        name: "Product 1",
         price: 20
       })
 
     expect(response.status).toBe(201)
-    expect(response.body.name).toBe("John")
+    expect(response.body.name).toBe("Product 1")
     expect(response.body.price).toBe(20)
   })
 
@@ -27,7 +27,7 @@ describe("E2E test for customer", () => {
     const response = await request(app)
       .post("/product")
       .send({
-        name: "John",
+        name: "Product 1",
       })
 
 

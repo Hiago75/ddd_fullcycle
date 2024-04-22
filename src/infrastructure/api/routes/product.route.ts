@@ -23,7 +23,7 @@ productRoute.post("/", async (req: Request, res: Response) => {
   }
 })
 
-productRoute.get("/", async (req: Request, res: Response) => {
+productRoute.get("/", async (_: Request, res: Response) => {
   const usecase = new ListProductUseCase(new ProductRepository())
 
   try {
