@@ -34,7 +34,7 @@ describe("E2E test for customer", () => {
     expect(response.status).toBe(500)
   })
 
-  it("should create a product", async () => {
+  it("should list all products", async () => {
     const response = await request(app)
       .post("/product")
       .send({
@@ -65,5 +65,55 @@ describe("E2E test for customer", () => {
     const product2 = listResponse.body.products[1]
     expect(product2.name).toBe("Product 2")
     expect(product2.price).toBe(40)
+  })
+
+  it("should find a product", async () => {
+    const response = await request(app)
+      .post("/product")
+      .send({
+        name: "Product 1",
+        price: 20
+      })
+    expect(response.status).toBe(201)
+
+    const productId = response.body.id;
+
+    const findResponse = await request(app)
+      .get(`/product/${productId}`)
+      .send()
+
+    expect(findResponse.status).toBe(200)
+    expect(findResponse.body.name).toBe("Product 1")
+    expect(findResponse.body.price).toBe(20)
+  })
+
+  it("should find a product", async () => {
+    const response = await request(app)
+      .post("/product")
+      .send({
+        name: "Product 1",
+        price: 20
+      })
+    expect(response.status).toBe(201)
+
+    const productId = response.body.id;
+
+    const findResponse = await request(app)
+      .get(`/product/${productId}`)
+      .send()
+
+    expect(findResponse.status).toBe(200)
+    expect(findResponse.body.name).toBe("Product 1")
+    expect(findResponse.body.price).toBe(20)
+  })
+
+  it("should not find a product", async () => {
+    const productId = "1234";
+
+    const findResponse = await request(app)
+      .get(`/product/${productId}`)
+      .send()
+
+    expect(findResponse.status).toBe(500)
   })
 })
