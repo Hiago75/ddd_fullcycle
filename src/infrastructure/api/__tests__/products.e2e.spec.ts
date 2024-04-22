@@ -22,4 +22,15 @@ describe("E2E test for customer", () => {
     expect(response.body.name).toBe("John")
     expect(response.body.price).toBe(20)
   })
+
+  it("should not create a product", async () => {
+    const response = await request(app)
+      .post("/product")
+      .send({
+        name: "John",
+      })
+
+
+    expect(response.status).toBe(500)
+  })
 })
