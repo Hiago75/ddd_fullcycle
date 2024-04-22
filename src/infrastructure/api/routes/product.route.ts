@@ -5,6 +5,7 @@ import { ProductType } from "../../../usecase/product/create/create.product.dto"
 import ListProductUseCase from "../../../usecase/product/list/list.product.usecase"
 import FindProductUseCase from "../../../usecase/product/find/find.product.usecase"
 import { InputFindProductDto } from "../../../usecase/product/find/find.product.dto"
+import UpdateProductUseCase from "../../../usecase/product/update/update.product.usecase"
 
 export const productRoute = express.Router()
 
@@ -42,6 +43,23 @@ productRoute.get("/:id", async (req: Request<InputFindProductDto>, res: Response
   try {
     const output = await usecase.execute(req.params)
     res.send(output)
+  } catch (err) {
+    res.status(500).send(err)
+  }
+})
+
+productRoute.put("/", async (req: Request, res: Response) => {
+  const usecase = new UpdateProductUseCase(new ProductRepository())
+
+  try {
+    const productDto = {
+      id: req.body.id,
+      name: req.body.name,
+      price: req.body.price,
+    }
+
+    const output = await usecase.execute(productDto)
+    res.status(200).send(output)
   } catch (err) {
     res.status(500).send(err)
   }

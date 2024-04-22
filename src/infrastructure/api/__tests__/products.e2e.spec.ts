@@ -116,4 +116,135 @@ describe("E2E test for customer", () => {
 
     expect(findResponse.status).toBe(500)
   })
+
+  it("should update a product's name", async () => {
+    const response = await request(app)
+      .post("/product")
+      .send({
+        name: "Product 1",
+        price: 20
+      })
+    expect(response.status).toBe(201)
+
+    const productId = response.body.id;
+
+    const updateResponse = await request(app)
+      .put("/product")
+      .send({
+        id: productId,
+        name: "Product updated",
+        price: 20
+      })
+
+    expect(updateResponse.status).toBe(200)
+    expect(updateResponse.body.name).toBe("Product updated")
+    expect(updateResponse.body.price).toBe(response.body.price)
+  })
+
+
+  it("should update a product's price", async () => {
+    const response = await request(app)
+      .post("/product")
+      .send({
+        name: "Product 1",
+        price: 20
+      })
+    expect(response.status).toBe(201)
+
+    const productId = response.body.id;
+
+    const updateResponse = await request(app)
+      .put("/product")
+      .send({
+        id: productId,
+        name: "Product 1",
+        price: 30,
+      })
+
+    expect(updateResponse.status).toBe(200)
+    expect(updateResponse.body.name).toBe(response.body.name)
+    expect(updateResponse.body.price).toBe(30)
+  })
+
+  it("should update a product", async () => {
+    const response = await request(app)
+      .post("/product")
+      .send({
+        name: "Product 1",
+        price: 20
+      })
+    expect(response.status).toBe(201)
+
+    const productId = response.body.id;
+
+    const updateResponse = await request(app)
+      .put("/product")
+      .send({
+        id: productId,
+        name: "Product updated",
+        price: 30,
+      })
+
+    expect(updateResponse.status).toBe(200)
+    expect(updateResponse.body.name).toBe("Product updated")
+    expect(updateResponse.body.price).toBe(30)
+  })
+
+  it("should not update a product", async () => {
+    const productId = "1234";
+
+    const updateResponse = await request(app)
+      .put(`/product/`)
+      .send({
+        id: productId,
+        name: "Product updated",
+        price: 30,
+      })
+
+    expect(updateResponse.status).toBe(500)
+  })
+
+  it("should not allow to update a product to an empty name", async () => {
+    const response = await request(app)
+      .post("/product")
+      .send({
+        name: "Product 1",
+        price: 20
+      })
+    expect(response.status).toBe(201)
+
+    const productId = response.body.id;
+
+    const updateResponse = await request(app)
+      .put("/product")
+      .send({
+        id: productId,
+        name: "",
+        price: 30,
+      })
+
+    expect(updateResponse.status).toBe(500)
+  })
+
+  it("should not allow to update a product to a price lower than 0", async () => {
+    const response = await request(app)
+      .post("/product")
+      .send({
+        name: "Product 1",
+        price: 20
+      })
+    expect(response.status).toBe(201)
+
+    const productId = response.body.id;
+
+    const updateResponse = await request(app)
+      .put("/product")
+      .send({
+        id: productId,
+        name: "Product 1",
+        price: -10,
+      })
+
+    expect(updateResponse.status).toBe(500)
+  })
 })
