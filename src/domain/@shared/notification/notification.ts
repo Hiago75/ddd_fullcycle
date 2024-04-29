@@ -14,6 +14,10 @@ export default class Notification {
     this.errors.push(error)
   }
 
+  clearErrors() {
+    this.errors = []
+  }
+
   hasErrors(): boolean {
     return this.errors.length > 0
   }

@@ -4,7 +4,7 @@ import { InputUpdateProductDto } from "./update.product.dto";
 import UpdateProductUseCase from "./update.product.usecase";
 
 describe("Unit test for product update use case", () => {
-  let input: InputUpdateProductDto
+  let baseInput: InputUpdateProductDto
 
   const product = ProductFactory.create(ProductType.A, "Product 1", 20);
   const MockRepository = () => {
@@ -17,7 +17,7 @@ describe("Unit test for product update use case", () => {
   }
 
   beforeEach(() => {
-    input = {
+    baseInput = {
       id: product.id,
       name: "Updated Product",
       price: 40,
@@ -28,25 +28,31 @@ describe("Unit test for product update use case", () => {
     const productRepository = MockRepository();
     const updateProductUseCase = new UpdateProductUseCase(productRepository)
 
-    const output = await updateProductUseCase.execute(input)
+    const output = await updateProductUseCase.execute(baseInput)
 
-    expect(output).toEqual(input)
+    expect(output).toEqual(baseInput)
   })
 
   it("should not update a customer name to an empty one", async () => {
     const productRepository = MockRepository();
     const updateProductUseCase = new UpdateProductUseCase(productRepository)
+    const input = {
+      ...baseInput,
+      name: ""
+    }
 
-    input.name = ""
-    await expect(updateProductUseCase.execute(input)).rejects.toThrow("Product name is required")
+    await expect(updateProductUseCase.execute(input)).rejects.toThrow("product: Product name is required")
   })
 
   it("should not update a customer price to lower than 0", async () => {
     const productRepository = MockRepository();
     const updateProductUseCase = new UpdateProductUseCase(productRepository)
+    const input = {
+      ...baseInput,
+      price: -10
+    }
 
-    input.price = -10
-    await expect(updateProductUseCase.execute(input)).rejects.toThrow("Product price must be greater than zero")
+    await expect(updateProductUseCase.execute(input)).rejects.toThrow("product: Product price must be greater than zero")
   })
 
   it("should not update a customer with an invalid id", async () => {
@@ -57,6 +63,6 @@ describe("Unit test for product update use case", () => {
 
     const updateProductUseCase = new UpdateProductUseCase(productRepository)
 
-    await expect(updateProductUseCase.execute(input)).rejects.toThrow("Product not found")
+    await expect(updateProductUseCase.execute(baseInput)).rejects.toThrow("Product not found")
   })
 }) 

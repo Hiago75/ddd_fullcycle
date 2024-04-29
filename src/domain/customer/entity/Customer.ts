@@ -4,6 +4,7 @@ import Address from "../value-object/Address";
 import CustomerInterface from "./customer.interface";
 
 export default class Customer extends Entity implements CustomerInterface {
+  private _id: string;
   private _name: string;
   private _address!: Address;
   private _active: boolean = false;
@@ -11,10 +12,14 @@ export default class Customer extends Entity implements CustomerInterface {
 
   constructor(id: string, name: string) {
     super()
-    this.id = id;
+    this._id = id;
     this._name = name;
 
     this.validate();
+  }
+
+  get id(): string {
+    return this._id;
   }
 
   static create(id: string, name: string): Customer {
@@ -44,6 +49,8 @@ export default class Customer extends Entity implements CustomerInterface {
   }
 
   validate() {
+    this.notification.clearErrors();
+
     if (this.id.length === 0) {
       this.notification.addError({
         context: "customer",
@@ -61,6 +68,8 @@ export default class Customer extends Entity implements CustomerInterface {
     if (this.notification.hasErrors()) {
       throw new NotificationError(this.notification.getErrors())
     }
+
+    return true;
   }
 
   changeName(name: string) {

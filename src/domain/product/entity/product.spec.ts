@@ -4,19 +4,25 @@ describe("Product unit tests", () => {
   it("should throw error when product id is empty", () => {
     expect(() => {
       new Product("", "Product 1", 100);
-    }).toThrow('Product id is required')
+    }).toThrow('product: Product id is required')
   })
 
   it("should throw error when product name is empty", () => {
     expect(() => {
       new Product("123", "", 100);
-    }).toThrow('Product name is required')
+    }).toThrow('product: Product name is required')
   })
 
   it("should throw error when product price is less than zero", () => {
     expect(() => {
       new Product("123", "Product 1", -1);
-    }).toThrow('Product price must be greater than zero')
+    }).toThrow('product: Product price must be greater than zero')
+  })
+
+  it("should throw error when product name is empty", () => {
+    expect(() => {
+      new Product("", "", 100);
+    }).toThrow('product: Product id is required,product: Product name is required')
   })
 
   it("should change product name", () => {
