@@ -3,7 +3,6 @@ import NotificationError from "../../@shared/notification/notification.error";
 import ProductInterface from "./product.interface";
 
 export default class Product extends Entity implements ProductInterface {
-  private _id: string;
   private _name: string;
   private _price: number;
 
@@ -14,10 +13,6 @@ export default class Product extends Entity implements ProductInterface {
     this._price = price;
 
     this.validate();
-  }
-
-  get id(): string {
-    return this._id;
   }
 
   get name(): string {

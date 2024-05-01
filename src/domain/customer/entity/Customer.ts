@@ -1,10 +1,10 @@
 import Entity from "../../@shared/entity/entity.abstract";
 import NotificationError from "../../@shared/notification/notification.error";
+import CustomerValidatorFactory from "../factory/customer.validator.factory";
 import Address from "../value-object/Address";
 import CustomerInterface from "./customer.interface";
 
 export default class Customer extends Entity implements CustomerInterface {
-  private _id: string;
   private _name: string;
   private _address!: Address;
   private _active: boolean = false;
@@ -16,10 +16,6 @@ export default class Customer extends Entity implements CustomerInterface {
     this._name = name;
 
     this.validate();
-  }
-
-  get id(): string {
-    return this._id;
   }
 
   static create(id: string, name: string): Customer {
@@ -49,27 +45,11 @@ export default class Customer extends Entity implements CustomerInterface {
   }
 
   validate() {
-    this.notification.clearErrors();
-
-    if (this.id.length === 0) {
-      this.notification.addError({
-        context: "customer",
-        message: "Id is required"
-      })
-    }
-
-    if (this._name.length === 0) {
-      this.notification.addError({
-        context: "customer",
-        message: "Name is required"
-      })
-    }
+    CustomerValidatorFactory.create().validate(this);
 
     if (this.notification.hasErrors()) {
       throw new NotificationError(this.notification.getErrors())
     }
-
-    return true;
   }
 
   changeName(name: string) {
