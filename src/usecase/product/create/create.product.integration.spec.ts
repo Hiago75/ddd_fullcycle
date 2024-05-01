@@ -65,7 +65,7 @@ describe("Integration test for create product", () => {
     const createProductUseCase = new CreateProductUseCase(productRepository)
 
     input.name = ""
-    await expect(createProductUseCase.execute(input)).rejects.toThrow("Product name is required")
+    await expect(createProductUseCase.execute(input)).rejects.toThrow("Name is required")
   })
 
   it("should throw an error when price is lower than 0", async () => {
@@ -73,6 +73,6 @@ describe("Integration test for create product", () => {
     const createProductUseCase = new CreateProductUseCase(productRepository)
 
     input.price = -10
-    await expect(createProductUseCase.execute(input)).rejects.toThrow("Product price must be greater than zero")
+    await expect(createProductUseCase.execute(input)).rejects.toThrow("price must be a positive number")
   })
 })

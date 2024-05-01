@@ -41,7 +41,7 @@ describe("Unit test for product update use case", () => {
       name: ""
     }
 
-    await expect(updateProductUseCase.execute(input)).rejects.toThrow("product: Product name is required")
+    await expect(updateProductUseCase.execute(input)).rejects.toThrow("product: Name is required")
   })
 
   it("should not update a customer price to lower than 0", async () => {
@@ -52,7 +52,7 @@ describe("Unit test for product update use case", () => {
       price: -10
     }
 
-    await expect(updateProductUseCase.execute(input)).rejects.toThrow("product: Product price must be greater than zero")
+    await expect(updateProductUseCase.execute(input)).rejects.toThrow("product: price must be a positive number")
   })
 
   it("should not update a customer with an invalid id", async () => {

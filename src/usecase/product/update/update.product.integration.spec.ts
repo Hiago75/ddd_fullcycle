@@ -60,7 +60,7 @@ describe("Integration test for update product", () => {
     await productRepository.create(product);
     input.name = ""
 
-    await expect(updateProductUseCase.execute(input)).rejects.toThrow("Product name is required")
+    await expect(updateProductUseCase.execute(input)).rejects.toThrow("Name is required")
   })
 
   it("should not update a customer price to lower than 0", async () => {
@@ -71,6 +71,6 @@ describe("Integration test for update product", () => {
     await productRepository.create(product);
     input.price = -10
 
-    await expect(updateProductUseCase.execute(input)).rejects.toThrow("Product price must be greater than zero")
+    await expect(updateProductUseCase.execute(input)).rejects.toThrow("price must be a positive number")
   })
 })
